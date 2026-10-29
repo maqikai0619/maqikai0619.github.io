@@ -14,7 +14,7 @@ const projects = [
     repo: null, // https://github.com/maqikai0619/askdata
   },
   {
-    name: "商绘 · AI 电商多模态无线画布",
+    name: "商绘 · AI 电商多模态无限画布",
     desc: "工作台 / 项目 / 商品 / 素材 / 系统，一体化电商内容创作。",
     demo: null,
     repo: null, // https://github.com/maqikai0619/agent-project
