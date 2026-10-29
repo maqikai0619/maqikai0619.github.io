@@ -338,6 +338,10 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 56px); }
 }
 
 /* ---------- 技能栈 ---------- */
+#skills-list {
+  max-width: 720px;
+  margin: 0 auto;
+}
 .skill-group { margin-bottom: 22px; text-align: center; }
 .skill-group:last-child { margin-bottom: 0; }
 .skill-group-label {
