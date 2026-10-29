@@ -316,6 +316,68 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 56px); }
 }
 .reveal.in { opacity: 1; transform: none; }
 
+/* ---------- 技术栈标签（卡片） ---------- */
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 18px;
+}
+.tag {
+  font-size: 12px;
+  line-height: 1;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--panel-border);
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.03);
+  white-space: nowrap;
+}
+
+/* ---------- 技能栈 ---------- */
+.skill-group { margin-bottom: 22px; }
+.skill-group:last-child { margin-bottom: 0; }
+.skill-group-label {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--accent-b);
+}
+.chips { display: flex; flex-wrap: wrap; gap: 9px; }
+.chip {
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  font-size: 14px;
+  color: var(--text);
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.chip:hover {
+  border-color: var(--accent-b);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(34, 211, 238, 0.18);
+}
+
+/* ---------- Hero 光标跟随光晕 ---------- */
+.hero { position: relative; z-index: 0; }
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    520px circle at var(--mx, 50%) var(--my, 35%),
+    rgba(99, 102, 241, 0.16),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.hero:hover::before { opacity: 1; }
+
 /* ---------- 响应式 ---------- */
 @media (max-width: 640px) {
   .nav { gap: 16px; font-size: 14px; }
