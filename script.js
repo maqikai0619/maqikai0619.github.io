@@ -1,29 +1,28 @@
-// 项目数据：后续把 demo / repo 填上公网链接，对应按钮就会自动点亮，无需改其他代码。
-// demo = 在线可访问的演示地址；repo = GitHub 公开仓库地址。
+// 项目数据：demo 已对接公网地址；repo 指向 GitHub 仓库，公开后再填即可点亮。
 const projects = [
   {
-    name: "AI 向量数据库 & RAG 系统",
-    desc: "从零构建企业级知识库问答（Milvus + LangChain + 通义千问，Vue3 + Flask）。",
-    demo: null, // 例：https://your-demo.example.com
-    repo: null, // 例：https://github.com/maqikai0619/vectordata
-  },
-  {
-    name: "AskData Studio",
-    desc: "面向短视频运营的自然语言问数（Vue + FastAPI + LangGraph）。",
-    demo: null,
-    repo: null, // https://github.com/maqikai0619/askdata
+    name: "AI 电商生图生视频",
+    desc: "AIGC 平台（图片/视频制作/数字人/爆款带货视频）+ 多 Agent 自纠错编排。",
+    demo: "http://23.144.68.140/mqk-ec-agent/",
+    repo: null, // https://github.com/maqikai0619/ai-ecommerce-image-video
   },
   {
     name: "商绘 · AI 电商多模态无限画布",
     desc: "工作台 / 项目 / 商品 / 素材 / 系统，一体化电商内容创作。",
-    demo: null,
+    demo: "http://23.144.68.140/zst/",
     repo: null, // https://github.com/maqikai0619/agent-project
   },
   {
-    name: "AI 电商生图生视频",
-    desc: "AIGC 平台（图片/视频制作/数字人/爆款带货视频）+ 多 Agent 自纠错编排。",
-    demo: null,
-    repo: null, // https://github.com/maqikai0619/ai-ecommerce-image-video
+    name: "AskData Studio",
+    desc: "面向短视频运营的自然语言问数（Vue + FastAPI + LangGraph）。",
+    demo: "http://23.144.68.140/askdata/",
+    repo: null, // https://github.com/maqikai0619/askdata
+  },
+  {
+    name: "AI 向量数据库 & RAG 系统",
+    desc: "从零构建企业级知识库问答（Milvus + LangChain + 通义千问，Vue3 + Flask）。",
+    demo: "http://23.144.68.140/vectordata/",
+    repo: null, // https://github.com/maqikai0619/vectordata
   },
 ];
 
@@ -65,10 +64,12 @@ function makeBtn(label, url, type) {
     a.textContent = label;
     return a;
   }
+  // 没填链接：demo 显示「即将上线」，源码显示「暂不公开」
   const span = document.createElement("span");
   span.className = "card-btn is-disabled";
-  span.textContent = `${label} · 即将上线`;
-  span.title = "公网链接就绪后上线";
+  const note = type === "src" ? "暂不公开" : "即将上线";
+  span.textContent = `${label} · ${note}`;
+  span.title = type === "src" ? "仓库暂未公开" : "公网链接就绪后上线";
   return span;
 }
 
