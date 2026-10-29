@@ -338,7 +338,7 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 56px); }
 }
 
 /* ---------- 技能栈 ---------- */
-.skill-group { margin-bottom: 22px; }
+.skill-group { margin-bottom: 22px; text-align: center; }
 .skill-group:last-child { margin-bottom: 0; }
 .skill-group-label {
   margin: 0 0 10px;
@@ -347,7 +347,7 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 56px); }
   letter-spacing: 1px;
   color: var(--accent-b);
 }
-.chips { display: flex; flex-wrap: wrap; gap: 9px; }
+.chips { display: flex; flex-wrap: wrap; gap: 9px; justify-content: center; }
 .chip {
   padding: 8px 16px;
   border-radius: 999px;
