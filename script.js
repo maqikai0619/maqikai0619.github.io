@@ -177,3 +177,90 @@ hero.addEventListener("mousemove", (e) => {
   hero.style.setProperty("--mx", `${e.clientX - r.left}px`);
   hero.style.setProperty("--my", `${e.clientY - r.top}px`);
 });
+
+/* ---------- 打字机 ---------- */
+const phrases = [
+  "AI全栈开发爱好者",
+  "向量数据库 & RAG",
+  "自然语言问数",
+  "生图生视频 AIGC",
+];
+const typeEl = document.getElementById("typewriter");
+let pi = 0;
+let ci = 0;
+let deleting = false;
+
+function typeTick() {
+  const word = phrases[pi];
+  if (!deleting) {
+    ci += 1;
+    typeEl.textContent = word.slice(0, ci);
+    if (ci === word.length) {
+      deleting = true;
+      setTimeout(typeTick, 1800);
+      return;
+    }
+    setTimeout(typeTick, 90);
+  } else {
+    ci -= 1;
+    typeEl.textContent = word.slice(0, ci);
+    if (ci === 0) {
+      deleting = false;
+      pi = (pi + 1) % phrases.length;
+      setTimeout(typeTick, 400);
+      return;
+    }
+    setTimeout(typeTick, 45);
+  }
+}
+typeTick();
+
+/* ---------- 粒子背景 ---------- */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+let W = 0;
+let H = 0;
+
+function resizeParticles() {
+  W = canvas.width = canvas.offsetWidth;
+  H = canvas.height = canvas.offsetHeight;
+}
+resizeParticles();
+window.addEventListener("resize", resizeParticles);
+
+const COLORS = ["99,102,241", "34,211,238", "168,85,247"];
+const parts = [];
+for (let i = 0; i < 70; i++) {
+  parts.push({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    r: Math.random() * 1.6 + 0.4,
+    vx: (Math.random() - 0.5) * 0.15,
+    vy: Math.random() * 0.25 + 0.05,
+    c: COLORS[(Math.random() * COLORS.length) | 0],
+    a: Math.random() * 0.5 + 0.15,
+    tw: Math.random() * Math.PI * 2,
+  });
+}
+
+function tick() {
+  ctx.clearRect(0, 0, W, H);
+  for (const p of parts) {
+    p.x += p.vx;
+    p.y -= p.vy;
+    p.tw += 0.03;
+    if (p.y < -5) {
+      p.y = H + 5;
+      p.x = Math.random() * W;
+    }
+    if (p.x < -5) p.x = W + 5;
+    if (p.x > W + 5) p.x = -5;
+    const alpha = p.a * (0.6 + 0.4 * Math.sin(p.tw));
+    ctx.fillStyle = `rgba(${p.c},${alpha.toFixed(3)})`;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  requestAnimationFrame(tick);
+}
+tick();
