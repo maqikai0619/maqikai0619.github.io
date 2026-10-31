@@ -1,6 +1,13 @@
 // 项目数据：demo 已对接公网地址；repo 指向 GitHub 仓库，公开后再填即可点亮。
 const projects = [
   {
+    name: "MQK漫剧 · AI 漫剧创作平台",
+    desc: "AI 漫剧 / 短剧全流程创作：AI 编剧对话、剧本、分镜、素材、配音到成片。",
+    tech: ["Nuxt3", "Vue3", "Java", "Spring Boot", "SSE", "LLM"],
+    demo: "http://23.144.68.140/MQK/",
+    repo: null, // 二改自开源 AID，源码暂未公开
+  },
+  {
     name: "AI 电商生图生视频",
     desc: "AIGC 平台（图片/视频制作/数字人/爆款带货视频）+ 多 Agent 自纠错编排。",
     tech: ["原生 JS", "FastAPI", "LangGraph", "SSE", "多 Agent"],
