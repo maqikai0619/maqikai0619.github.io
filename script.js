@@ -154,6 +154,9 @@ document.querySelectorAll(".card").forEach((card) => {
       card.style.transition =
         "transform 0.1s ease-out, border-color 0.25s ease, box-shadow 0.25s ease";
       card.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
+      // 光标跟随光斑的位置（供 .card::after 的 radial-gradient 使用）
+      card.style.setProperty("--sx", `${cx - r.left}px`);
+      card.style.setProperty("--sy", `${cy - r.top}px`);
       raf = null;
     });
   });
@@ -271,3 +274,30 @@ function tick() {
   requestAnimationFrame(tick);
 }
 tick();
+
+/* ---------- 背景音乐 ---------- */
+const bgm = document.getElementById("bgm");
+const musicBtn = document.getElementById("music-toggle");
+
+if (bgm && musicBtn) {
+  const setPlaying = (p) => {
+    musicBtn.classList.toggle("is-playing", p);
+    musicBtn.classList.toggle("is-muted", !p);
+    musicBtn.setAttribute("aria-pressed", String(p));
+  };
+  const tryPlay = () =>
+    bgm.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+
+  // 尝试自动播放（首次访问可能被浏览器静音策略拦截，回落到按钮/任意交互再播）
+  tryPlay();
+
+  musicBtn.addEventListener("click", () => {
+    if (bgm.paused) tryPlay();
+    else { bgm.pause(); setPlaying(false); }
+  });
+
+  // 自动播放被拦截时，首次任意交互补播
+  const resumeOnce = () => { if (bgm.paused) tryPlay(); };
+  window.addEventListener("pointerdown", resumeOnce, { once: true });
+  window.addEventListener("keydown", resumeOnce, { once: true });
+}
