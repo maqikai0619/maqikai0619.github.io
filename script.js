@@ -67,6 +67,9 @@ const skills = [
   { group: "工程", items: ["Docker", "Nginx", "宝塔部署", "Git"] },
 ];
 
+// 技能栈：作为桌面上的一个「应用」，点击在窗口内展开（非项目，无 demo）
+const skillsApp = { id: "skills", name: "技能栈", subtitle: "技术栈 / 工具链", color: "slate", glyph: "🛠️" };
+
 const $ = (s) => document.querySelector(s);
 const byId = (id) => projects.find((p) => p.id === id);
 
@@ -132,7 +135,7 @@ function renderApps() {
   $("#all-apps").classList.toggle("active", filter === "all");
   $("#recent-filter").classList.toggle("active", filter === "recent");
 
-  $("#dock-apps").innerHTML = projects
+  $("#dock-apps").innerHTML = [...projects, skillsApp]
     .map(
       (p) =>
         `<button class="dock-app${activeId === p.id ? " is-open" : ""}" data-app="${p.id}" data-tooltip="${p.name}" aria-label="打开${p.name}">${icon(p)}</button>`
@@ -140,17 +143,19 @@ function renderApps() {
     .join("");
 }
 
-/* ---------- 渲染技能 ---------- */
-function renderSkills() {
-  const wrap = $("#skills-list");
-  wrap.innerHTML = skills
-    .map(
-      (g) =>
-        `<div class="skill-group"><p class="skill-group-label">${g.group}</p><div class="chips">${g.items
-          .map((i) => `<span class="chip">${i}</span>`)
-          .join("")}</div></div>`
-    )
-    .join("");
+/* ---------- 技能栈窗口内容 ---------- */
+function renderSkillsHTML() {
+  return `<div class="skills-detail">
+    <div class="sd-hero">${icon(skillsApp)}<h3>技能栈</h3></div>
+    ${skills
+      .map(
+        (g) =>
+          `<div class="skill-group"><p class="skill-group-label">${g.group}</p><div class="chips">${g.items
+            .map((i) => `<span class="chip">${i}</span>`)
+            .join("")}</div></div>`
+      )
+      .join("")}
+  </div>`;
 }
 
 /* ---------- 应用窗口 ---------- */
@@ -163,6 +168,8 @@ function canEmbed(p) {
 }
 
 function launch(id) {
+  if (id === "skills") return openSkills();
+
   const p = byId(id);
   if (!p) return;
   activeId = id;
@@ -174,8 +181,10 @@ function launch(id) {
   $("#window-title").textContent = p.name;
 
   const ok = canEmbed(p);
+  $("#window-content").hidden = true;
   $("#frame-blocked").hidden = ok;
   $("#app-frame").hidden = !ok;
+  $("#open-tab").hidden = false;
   $("#open-tab").href = p.demo;
 
   if (ok) {
@@ -198,9 +207,28 @@ function launch(id) {
   renderApps();
 }
 
+function openSkills() {
+  activeId = "skills";
+  $("#search-dialog").close();
+  $("#user-menu").hidden = true;
+  $("#window-title").textContent = "技能栈";
+  $("#open-tab").hidden = true;
+  $("#frame-loading").hidden = true;
+  $("#app-frame").hidden = true;
+  $("#app-frame").removeAttribute("src");
+  $("#frame-blocked").hidden = true;
+  $("#window-content").hidden = false;
+  $("#window-content").innerHTML = renderSkillsHTML();
+  $("#app-window").hidden = false;
+  $("#app-window").classList.remove("maximized");
+  renderApps();
+}
+
 function closeWindow() {
   activeId = null;
   $("#app-frame").removeAttribute("src");
+  $("#window-content").hidden = true;
+  $("#open-tab").hidden = false;
   $("#app-window").hidden = true;
   renderApps();
 }
@@ -216,7 +244,6 @@ function unlock() {
   $("#login").hidden = true;
   $("#desktop").hidden = false;
   renderApps();
-  renderSkills();
   clock();
 }
 function lock() {
