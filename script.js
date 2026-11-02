@@ -83,7 +83,7 @@ try {
 } catch {}
 
 const icon = (p) =>
-  `<span class="app-icon ${p.color}"><span class="glyph">${p.glyph}</span></span>`;
+  `<span class="app-icon ${p.color}"><img src="icons/${p.id}.png" alt="" draggable="false" /></span>`;
 
 function toast(text) {
   clearTimeout(timer);
@@ -130,6 +130,7 @@ function renderApps() {
     .join("");
   $("#empty-apps").hidden = apps.length > 0;
   $("#apps-count").textContent = apps.length + " 个项目";
+  $("#online-count").textContent = projects.length;
   $("#apps-heading").textContent = filter === "all" ? "为下一次创作做好准备" : "继续上一次的灵感";
   $("#all-apps").classList.toggle("active", filter === "all");
   $("#recent-filter").classList.toggle("active", filter === "recent");
