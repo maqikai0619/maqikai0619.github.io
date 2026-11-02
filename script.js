@@ -32,6 +32,7 @@ const projects = [
     repo: null, // https://github.com/maqikai0619/agent-project
     color: "orange",
     glyph: "🖼️",
+    frame: "block", // 该站点带 X-Frame-Options: DENY，无法嵌入 iframe
   },
   {
     id: "askdata",
@@ -152,8 +153,16 @@ function renderSkills() {
     .join("");
 }
 
-/* ---------- 项目窗口 ---------- */
-function openProject(id) {
+/* ---------- 应用窗口 ---------- */
+const isHttps = location.protocol === "https:";
+function canEmbed(p) {
+  if (p.frame === "block") return false;
+  // HTTPS 页面内嵌 HTTP 站点会被浏览器按「混合内容」拦截，只能新标签打开
+  if (isHttps && p.demo && p.demo.startsWith("http://")) return false;
+  return true;
+}
+
+function launch(id) {
   const p = byId(id);
   if (!p) return;
   activeId = id;
@@ -163,22 +172,26 @@ function openProject(id) {
   $("#search-dialog").close();
   $("#user-menu").hidden = true;
   $("#window-title").textContent = p.name;
-  $("#open-demo").href = p.demo;
 
-  const src = p.repo
-    ? `<a class="pd-btn src" href="${p.repo}" target="_blank" rel="noopener">源码 ↗</a>`
-    : `<span class="pd-btn src is-disabled" title="个人项目，源码暂未公开">源码 · 个人项目</span>`;
+  const ok = canEmbed(p);
+  $("#frame-blocked").hidden = ok;
+  $("#app-frame").hidden = !ok;
+  $("#open-tab").href = p.demo;
 
-  $("#window-body").innerHTML = `
-    <div class="project-detail">
-      <div class="pd-hero">${icon(p)}<div><h3>${p.name}</h3><p class="pd-sub">${p.subtitle}</p></div></div>
-      <p class="pd-desc">${p.desc}</p>
-      <div class="pd-tags">${p.tech.map((t) => `<span class="chip">${t}</span>`).join("")}</div>
-      <div class="pd-actions">
-        <a class="pd-btn demo" href="${p.demo}" target="_blank" rel="noopener">在线 Demo ↗</a>
-        ${src}
-      </div>
-    </div>`;
+  if (ok) {
+    $("#frame-loading").hidden = false;
+    $("#frame-loading").textContent = "正在打开应用…";
+    $("#app-frame").title = p.name;
+    $("#app-frame").src = p.demo;
+  } else {
+    $("#app-frame").removeAttribute("src");
+    $("#fb-title").textContent = p.name;
+    $("#fb-desc").textContent =
+      p.frame === "block"
+        ? "该站点设置了禁止被其他页面嵌入（X-Frame-Options），请在独立标签页中打开。"
+        : "该应用为 HTTP 站点，在当前 HTTPS 页面内无法直接嵌入，请在独立标签页中打开。";
+    $("#fb-open").href = p.demo;
+  }
 
   $("#app-window").hidden = false;
   $("#app-window").classList.remove("maximized");
@@ -187,6 +200,7 @@ function openProject(id) {
 
 function closeWindow() {
   activeId = null;
+  $("#app-frame").removeAttribute("src");
   $("#app-window").hidden = true;
   renderApps();
 }
@@ -238,7 +252,7 @@ function openSearch() {
 /* ---------- 事件绑定 ---------- */
 document.addEventListener("click", (e) => {
   const btn = e.target.closest("[data-app]");
-  if (btn) openProject(btn.dataset.app);
+  if (btn) launch(btn.dataset.app);
 });
 
 $("#enter-workspace").addEventListener("click", unlock);
@@ -250,6 +264,7 @@ $("#dock-home").onclick = showDesktop;
 $("#minimize-app").onclick = showDesktop;
 $("#close-app").onclick = closeWindow;
 $("#maximize-app").onclick = () => $("#app-window").classList.toggle("maximized");
+$("#app-frame").onload = () => ($("#frame-loading").hidden = true);
 $("#dock-lock").onclick = lock;
 $("#logout").onclick = lock;
 
