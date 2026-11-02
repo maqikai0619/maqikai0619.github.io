@@ -32,7 +32,6 @@ const projects = [
     repo: null, // https://github.com/maqikai0619/agent-project
     color: "orange",
     glyph: "🖼️",
-    frame: "block", // 该站点带 X-Frame-Options: DENY，无法嵌入 iframe
   },
   {
     id: "askdata",
