@@ -181,6 +181,23 @@ h1, h2, h3, p { margin: 0; }
 .menu-right button svg { width: 15px; height: 15px; }
 .menu-right time { font-size: 12px; font-weight: 500; }
 
+/* 菜单栏账号按钮：做成明显的 pill 按钮，提示可点击打开菜单 */
+#user-button {
+  background: #ffffff1c;
+  border: 1px solid #ffffff2e;
+  border-radius: 999px;
+  padding: 4px 11px;
+  gap: 7px;
+}
+#user-button:hover { background: #ffffff30; }
+#user-button .user-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: linear-gradient(135deg, #22d3ee, #a855f7);
+  box-shadow: 0 0 0 2px #ffffff30;
+}
+#user-button .chev { width: 11px; height: 11px; opacity: 0.85; transition: transform 0.18s ease; }
+#user-button[aria-expanded="true"] .chev { transform: rotate(180deg); }
+
 /* 菜单栏背景音乐按钮 */
 #music-toggle { position: relative; }
 #music-toggle .eq { display: flex; align-items: flex-end; gap: 2px; height: 12px; }
