@@ -6,7 +6,7 @@ const projects = [
     subtitle: "AI 漫剧创作平台",
     desc: "AI 漫剧 / 短剧全流程创作：AI 编剧对话、剧本、分镜、素材、配音到成片。",
     tech: ["Nuxt3", "Vue3", "Java", "Spring Boot", "SSE", "LLM"],
-    demo: "http://23.144.68.140/MQK/",
+    demo: "http://110.42.51.234:8100/MQK/",
     repo: null, // 二改自开源 AID，源码暂未公开
     color: "blue",
     glyph: "🎬",
@@ -17,7 +17,7 @@ const projects = [
     subtitle: "AIGC 平台 + 多 Agent",
     desc: "AIGC 平台（图片/视频制作/数字人/爆款带货视频）+ 多 Agent 自纠错编排。",
     tech: ["原生 JS", "FastAPI", "LangGraph", "SSE", "多 Agent"],
-    demo: "http://23.144.68.140/mqk-ec-agent/",
+    demo: "http://110.42.51.234:8100/mqk-ec-agent/",
     repo: null, // https://github.com/maqikai0619/ai-ecommerce-image-video
     color: "purple",
     glyph: "🎨",
@@ -28,7 +28,7 @@ const projects = [
     subtitle: "电商多模态画布",
     desc: "工作台 / 项目 / 商品 / 素材 / 系统，一体化电商内容创作。",
     tech: ["React", "React Flow", "前端原型"],
-    demo: "http://23.144.68.140/zst/",
+    demo: "http://110.42.51.234:8100/zst/",
     repo: null, // https://github.com/maqikai0619/agent-project
     color: "orange",
     glyph: "🖼️",
@@ -39,7 +39,7 @@ const projects = [
     subtitle: "自然语言问数",
     desc: "面向短视频运营的自然语言问数（Vue + FastAPI + LangGraph）。",
     tech: ["Vue", "FastAPI", "LangGraph"],
-    demo: "http://23.144.68.140/askdata/",
+    demo: "http://110.42.51.234:8100/askdata/",
     repo: null, // https://github.com/maqikai0619/askdata
     color: "teal",
     glyph: "📊",
@@ -50,7 +50,7 @@ const projects = [
     subtitle: "企业级知识库问答",
     desc: "从零构建企业级知识库问答（Milvus + LangChain + 通义千问，Vue3 + Flask）。",
     tech: ["Milvus", "LangChain", "通义千问", "Vue3", "Flask"],
-    demo: "http://23.144.68.140/vectordata/",
+    demo: "http://110.42.51.234:8100/vectordata/",
     repo: null, // https://github.com/maqikai0619/vectordata
     color: "indigo",
     glyph: "🧠",
