@@ -3,83 +3,203 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MQK · AI全栈开发爱好者</title>
+  <meta name="theme-color" content="#22264a" />
+  <title>MQK · 你的创作桌面</title>
   <meta name="description" content="MQK 的个人作品集：AI 漫剧创作、AI 向量数据库 & RAG、自然语言问数、AI 电商多模态画布、生图生视频 AIGC 平台。" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='42' fill='url(%23g)'/%3E%3Ctext x='50' y='66' font-size='48' font-family='Arial' font-weight='bold' text-anchor='middle' fill='%230b0d12'%3EM%3C/text%3E%3C/svg%3E" />
-  <link rel="stylesheet" href="styles.css?v=3" />
+  <link rel="stylesheet" href="styles.css?v=13" />
+
+  <!-- 共享 logo 渐变（多个 SVG 实例引用同一 defs） -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="mqk-grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#6366f1" />
+        <stop offset="0.55" stop-color="#22d3ee" />
+        <stop offset="1" stop-color="#a855f7" />
+      </linearGradient>
+    </defs>
+  </svg>
 </head>
 <body>
-  <div class="bg" aria-hidden="true">
-    <span class="orb orb-a"></span>
-    <span class="orb orb-b"></span>
-    <span class="orb orb-c"></span>
-    <div class="grid-overlay"></div>
-    <canvas id="particles" aria-hidden="true"></canvas>
+  <div class="wallpaper" aria-hidden="true"></div>
+  <div class="wallpaper-shade" aria-hidden="true"></div>
+
+  <!-- 开机 -->
+  <div id="boot" class="boot">
+    <svg class="logo-svg" viewBox="0 0 100 100" aria-hidden="true"><rect x="6" y="6" width="88" height="88" rx="22" fill="url(#mqk-grad)"/><text x="50" y="71" text-anchor="middle" font-size="56" font-weight="800" font-family="Arial, sans-serif" fill="#0b0d12">M</text></svg>
+    <span>正在打开工作台</span>
   </div>
 
-  <header class="site-header">
-    <a class="brand" href="#top">MQK<span class="dot">.</span></a>
-    <nav class="nav">
-      <a href="#projects">项目</a>
-      <a href="#skills">技能</a>
-      <a href="#about">关于</a>
-      <a href="#contact">联系</a>
-      <a class="nav-gh" href="https://github.com/maqikai0619" target="_blank" rel="noopener">GitHub ↗</a>
+  <!-- 锁屏 / 首页 -->
+  <section id="login" class="login-screen" hidden aria-label="进入工作台">
+    <header class="lock-top">
+      <a href="#" class="wordmark">
+        <svg class="logo-svg" viewBox="0 0 100 100" aria-hidden="true"><rect x="6" y="6" width="88" height="88" rx="22" fill="url(#mqk-grad)"/><text x="50" y="71" text-anchor="middle" font-size="56" font-weight="800" font-family="Arial, sans-serif" fill="#0b0d12">M</text></svg>
+        MQK
+      </a>
+      <span class="lock-status">✦ 个人作品集</span>
+    </header>
+
+    <div class="lock-body">
+      <div class="lock-hero">
+        <span class="lock-eyebrow">PORTFOLIO · 2026</span>
+        <h1 class="lock-title">美好的创作，<br /><span class="grad">从这里开始。</span></h1>
+        <p class="lock-sub">AI 全栈开发爱好者 —— 从向量数据库、RAG 到多模态 AIGC，<br />端到端把每一个想法做成能跑的应用。</p>
+        <div class="lock-cta">
+          <button class="login-submit" id="enter-workspace" type="button">
+            <span>进入工作台</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <span class="login-hint">点开项目图标，直接在窗口内打开应用</span>
+        </div>
+      </div>
+
+      <div class="lock-visual">
+        <div class="lock-clock">
+          <p id="lock-date"></p>
+          <div id="lock-time"></div>
+        </div>
+        <div class="lock-preview">
+          <span class="lock-preview-label" id="lock-preview-label">个人项目</span>
+          <div class="lock-preview-icons" id="lock-preview-icons"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="lock-footer">✦ 进入后查看我的项目 / 技能 / 联系方式</footer>
+  </section>
+
+  <!-- 桌面 -->
+  <section id="desktop" class="desktop" hidden aria-label="MQK 桌面">
+    <header class="menu-bar">
+      <div class="menu-left">
+        <button class="menu-brand" id="home-button" aria-label="显示桌面">
+          <svg class="logo-svg" viewBox="0 0 100 100" aria-hidden="true"><rect x="6" y="6" width="88" height="88" rx="22" fill="url(#mqk-grad)"/><text x="50" y="71" text-anchor="middle" font-size="56" font-weight="800" font-family="Arial, sans-serif" fill="#0b0d12">M</text></svg>
+        </button>
+        <strong>MQK</strong>
+        <span class="menu-context">工作台</span>
+      </div>
+      <div class="menu-right">
+        <button id="music-toggle" aria-label="背景音乐 播放/暂停" title="背景音乐"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span></button>
+        <button id="search-toggle" aria-label="搜索项目" title="搜索项目 Ctrl / ⌘ K"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></button>
+        <button id="user-button" aria-expanded="false" title="账号 / 联系我"><span class="user-dot" aria-hidden="true"></span><span id="user-name">MQK</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <time id="menu-time"></time>
+      </div>
+    </header>
+
+    <div id="user-menu" class="user-menu glass" hidden>
+      <span class="menu-label">当前工作空间</span>
+      <strong>MQK</strong>
+      <span>AI 全栈开发爱好者</span>
+      <a href="https://github.com/maqikai0619" target="_blank" rel="noopener">GitHub <span>↗</span></a>
+      <a href="mailto:1849021585@qq.com">邮箱 <span>↗</span></a>
+      <button id="logout">锁定工作台</button>
+    </div>
+
+    <main class="desktop-main">
+      <div class="desktop-heading">
+        <span class="eyebrow">PORTFOLIO · 2026</span>
+        <h1 id="greeting">你好，我是 MQK。</h1>
+        <p id="tagline"><span id="typewriter"></span><span class="cursor">|</span></p>
+      </div>
+
+      <div class="desktop-layout">
+        <section class="finder glass" aria-labelledby="finder-title">
+          <div class="finder-toolbar">
+            <div class="traffic-lights" aria-hidden="true"><i></i><i></i><i></i></div>
+            <h2 id="finder-title">项目作品</h2>
+            <span class="finder-view">✦</span>
+          </div>
+          <div class="finder-body">
+            <aside class="finder-sidebar">
+              <span>浏览</span>
+              <button class="active" id="all-apps">全部项目</button>
+              <button id="recent-filter">最近打开</button>
+              <div class="sidebar-bottom"><span class="online-dot"></span> <span id="online-count">5</span> 个个人项目</div>
+            </aside>
+            <div class="finder-content">
+              <div class="content-heading">
+                <h3 id="apps-heading">为下一次创作做好准备</h3>
+                <span id="apps-count">5 个项目</span>
+              </div>
+              <div class="app-grid" id="app-grid"></div>
+              <div class="empty-apps" id="empty-apps" hidden>还没有打开过项目。选择「全部项目」开始吧。</div>
+            </div>
+          </div>
+          <footer class="finder-footer">
+            <span>✦ 已上线的专属空间</span>
+            <span class="live-badge"><i class="live-dot"></i>持续更新 · 不定期上新项目</span>
+            <span>点击图标，查看项目</span>
+          </footer>
+        </section>
+
+        <aside class="widgets">
+          <section class="date-widget glass">
+            <div><span id="widget-weekday"></span><strong id="widget-day"></strong><span id="widget-month"></span></div>
+            <div id="mini-calendar" class="mini-calendar"></div>
+          </section>
+
+          <section class="note-widget glass">
+            <div class="note-title"><span class="note-icon">✦</span><span>关于我</span></div>
+            <h2>把想法，做成<br>能跑的应用。</h2>
+            <p>从 RAG 知识库、自然语言问数，到 AI 电商的生图生视频工作台，<br>喜欢端到端把一件事做完、做好。</p>
+            <div class="note-bottom">MQK · AI 全栈开发 <span>↗</span></div>
+          </section>
+        </aside>
+      </div>
+    </main>
+
+    <!-- 应用窗口 -->
+    <section id="app-window" class="app-window" hidden aria-label="应用窗口">
+      <div class="window-toolbar">
+        <div class="window-controls">
+          <button id="close-app" class="red" aria-label="关闭应用"></button>
+          <button id="minimize-app" class="yellow" aria-label="最小化应用"></button>
+          <button id="maximize-app" class="green" aria-label="切换最大化"></button>
+        </div>
+        <h2 id="window-title"></h2>
+        <div class="window-actions">
+          <a id="open-tab" target="_blank" rel="noopener" aria-label="在新标签页打开应用" title="在新标签页打开">新标签 ↗</a>
+        </div>
+      </div>
+      <div id="frame-loading" class="frame-loading" hidden>正在打开应用…</div>
+      <iframe id="app-frame" title="应用内容"></iframe>
+      <div id="window-content" class="window-content" hidden></div>
+      <div id="frame-blocked" class="frame-blocked" hidden>
+        <div class="fb-icon">🚫</div>
+        <h3 id="fb-title">此应用无法在当前页面内直接打开</h3>
+        <p id="fb-desc"></p>
+        <a id="fb-open" target="_blank" rel="noopener">在新标签页打开 ↗</a>
+      </div>
+    </section>
+
+    <nav class="dock" aria-label="快捷项目">
+      <button id="dock-home" class="dock-home" aria-label="显示桌面" data-tooltip="桌面">
+        <svg class="logo-svg" viewBox="0 0 100 100" aria-hidden="true"><rect x="6" y="6" width="88" height="88" rx="22" fill="url(#mqk-grad)"/><text x="50" y="71" text-anchor="middle" font-size="56" font-weight="800" font-family="Arial, sans-serif" fill="#0b0d12">M</text></svg>
+      </button>
+      <div class="dock-divider"></div>
+      <div id="dock-apps"></div>
+      <div class="dock-divider"></div>
+      <button id="dock-lock" class="dock-lock" aria-label="锁定工作台" data-tooltip="锁定">🔒</button>
     </nav>
-  </header>
+  </section>
 
-  <main id="top">
-    <section class="hero">
-      <p class="hero-eyebrow reveal">PORTFOLIO · 2026</p>
-      <h1 class="hero-title reveal">MQK</h1>
-      <p class="hero-tagline reveal"><span id="typewriter"></span><span class="cursor">|</span></p>
-      <p class="hero-sub reveal">从向量数据库到多模态 AIGC，把想法做成能跑的 AI 应用。</p>
-      <div class="hero-cta reveal">
-        <a class="btn btn-primary" href="#projects">看项目</a>
-        <a class="btn btn-ghost" href="#contact">联系我</a>
+  <!-- 搜索 -->
+  <dialog id="search-dialog" class="spotlight glass">
+    <form method="dialog">
+      <div class="spotlight-input">
+        <span class="spotlight-icon">✦</span>
+        <input id="search-input" placeholder="搜索我的项目…" aria-label="搜索我的项目" autocomplete="off">
+        <button aria-label="关闭搜索">esc</button>
       </div>
-    </section>
+    </form>
+    <div id="search-results"></div>
+  </dialog>
 
-    <section id="projects" class="section">
-      <h2 class="section-title reveal">项目作品</h2>
-      <p class="section-sub reveal">五个方向，五个项目。</p>
-      <div class="grid" id="project-grid"></div>
-    </section>
+  <div id="toast" class="toast" role="status" hidden></div>
 
-    <section id="skills" class="section">
-      <h2 class="section-title reveal">技能栈</h2>
-      <p class="section-sub reveal">我常用的一套工具链。</p>
-      <div id="skills-list"></div>
-    </section>
+  <audio id="bgm" src="audio/gymnopedie-no1.mp3" loop preload="auto"></audio>
 
-    <section id="about" class="section">
-      <h2 class="section-title reveal">关于我</h2>
-      <div class="about-card reveal">
-        <p>我是 MQK，一名 AI 全栈开发爱好者。</p>
-        <p>热衷把前沿模型落地成实际能用的产品——从 RAG 知识库、自然语言问数，到 AI 电商的生图生视频工作台，喜欢端到端把一件事做完、做好。</p>
-      </div>
-    </section>
-
-    <section id="contact" class="section">
-      <h2 class="section-title reveal">联系我</h2>
-      <p class="section-sub reveal">欢迎交流与合作。</p>
-      <div class="contact-list reveal">
-        <a class="contact-item" href="https://github.com/maqikai0619" target="_blank" rel="noopener">
-          <span class="contact-label">GitHub</span>
-          <span class="contact-value">github.com/maqikai0619</span>
-        </a>
-        <a class="contact-item" href="mailto:1849021585@qq.com">
-          <span class="contact-label">邮箱</span>
-          <span class="contact-value">1849021585@qq.com</span>
-        </a>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <p>© 2026 MQK · AI全栈开发爱好者</p>
-  </footer>
-
-  <script src="script.js?v=4"></script>
+  <script src="script.js?v=14"></script>
 </body>
 </html>
